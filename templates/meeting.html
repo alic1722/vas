@@ -1,0 +1,156 @@
+<html>
+
+<head>
+    <title>视频聊天</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: 'Noto Sans SC', sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 20px;
+        }
+        #root {
+            border: 2px solid #007bff;
+            border-radius: 10px;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+            margin-top: 20px;
+            height: 600px; /* 或者设置一个合适的高度 */
+        }
+        #root:hover {
+            transform: scale(1.02);
+        }
+        .meeting-options {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+
+
+<body>
+    <div class="container">
+        <h1 class="text-center mb-4">视频会议</h1>
+        <div class="meeting-options">
+            <button class="btn btn-primary" onclick="createMeeting()">创建会议</button>
+            <button class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#joinModal">加入会议</button>
+        </div>
+        <div id="root"></div>
+        <div class="text-center mt-3">
+            <a href="{{ url_for('dashboard') }}" class="btn btn-outline-primary">返回仪表板</a>
+        </div>
+    </div>
+
+    <!-- 加入会议的模态框 -->
+    <div class="modal fade" id="joinModal" tabindex="-1" aria-labelledby="joinModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="joinModalLabel">加入会议</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="text" id="roomIDInput" class="form-control" placeholder="输入房间ID">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary" onclick="joinMeeting()">加入</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/@zegocloud/zego-uikit-prebuilt/zego-uikit-prebuilt.js"></script>
+    <script>
+    function getUrlParams(url) {
+        let urlStr = url.split('?')[1];
+        const urlSearchParams = new URLSearchParams(urlStr);
+        const result = Object.fromEntries(urlSearchParams.entries());
+        return result;
+    }
+
+    function generateToken(roomID) {
+        const appID = 86976347;
+        const serverSecret = "2b2b49df2ff06d47dbf229ac052023f6";
+        const userID = Math.floor(Math.random() * 10000) + "";
+        const userName = "{{username}}";
+        return ZegoUIKitPrebuilt.generateKitTokenForTest(appID, serverSecret, roomID, userID, userName);
+    }
+
+    function createMeeting() {
+        const roomID = Math.floor(Math.random() * 10000) + "";
+        
+         // 发送 POST 请求
+        fetch(`/upRoom_id`, {method: 'POST',headers: {
+                   'Content-Type': 'application/json'
+                     },
+                    body: JSON.stringify({
+                        upRoom_id: roomID
+                    })
+            })
+
+        joinRoom(roomID);
+    }
+
+    function joinMeeting() {
+        const roomID = document.getElementById('roomIDInput').value;
+        if (roomID) {
+            joinRoom(roomID);
+            var joinModal = bootstrap.Modal.getInstance(document.getElementById('joinModal'));
+            joinModal.hide();
+        } else {
+            alert("请输入有效的房间ID");
+        }
+    }
+
+    function joinRoom(roomID) {
+        const kitToken = generateToken(roomID);
+        const zp = ZegoUIKitPrebuilt.create(kitToken);
+        zp.joinRoom({
+            container: document.querySelector("#root"),
+            sharedLinks: [{
+                name: '会议链接',
+                url: window.location.protocol + '//' + window.location.host  + window.location.pathname + '?roomID=' + roomID,
+            }],
+            scenario: {
+                mode: ZegoUIKitPrebuilt.OneONoneCall,
+            },
+            showTurnOffRemoteCameraButton: true,
+            showTurnOffRemoteMicrophoneButton: true,
+            showRemoveUserButton: true,
+            showPreJoinView: false,
+            turnOnMicrophoneWhenJoining: true,
+            turnOnCameraWhenJoining: true,
+            showMyCameraToggleButton: true,
+            showMyMicrophoneToggleButton: true,
+            showAudioVideoSettingsButton: true,
+            showScreenSharingButton: true,
+            showTextChat: true,
+            showUserList: true,
+            maxUsers: 2,
+            layout: "Auto",
+            showLayoutButton: true,
+            showNonVideoUser: true,
+            showOnlyAudioUser: true,
+            showMyAvatarInAudioMode: true,
+            showLeavingView: true,
+        });
+    }
+
+    window.onload = function () {
+        const roomID = getUrlParams(window.location.href)['roomID'];
+        if (roomID) {
+            joinRoom(roomID);
+        }
+    }
+    </script>
+
+</body>
+</html>
+
+

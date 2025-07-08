@@ -1,0 +1,21 @@
+*{
+    padding: 0;
+    margin: 0;
+}
+h1,p{
+    text-align: center;
+}
+body{
+    width: 100%;
+    height: 100%;
+}
+/* 调整加载动画的字体大小和显示位置 */
+.layui-layer-content {
+  font-size: 18px; /* 修改字体大小 */
+  text-align: center; /* 文本居中 */
+  padding-top: 0px; /* 调整文本垂直位置 */
+}
+/* 调整加载动画圆圈的大小或图标样式 */
+.layui-layer .layui-layer-loading i {
+  font-size: 5px; /* 调整图标大小 */
+}

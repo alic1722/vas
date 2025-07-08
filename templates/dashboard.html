@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block title %}我的仪表板{% endblock %}
+{% block content %}
+    <h1><b>欢迎</b> {{ first_name }} {{ last_name }}</h1>
+    <hr>
+<!-- "创建或加入会议" 按钮 -->
+    <div class="create-meeting-button">
+        <div class="button-container">
+            <a class="btn btn-primary" href="{{ url_for('meeting') }}">创建会议</a>
+            <a class="btn btn-primary" href="{{ url_for('join') }}">加入会议</a>
+            <a class="btn btn-outline-light" href="{{ url_for('logout') }}">登出</a>
+        </div>
+
+{% endblock %}

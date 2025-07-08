@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>图像检测</title>
+    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <link href="{{ url_for('static', filename='utils/layui/css/layui.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/common.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/index.css') }}" rel="stylesheet">
+</head>
+<body>
+    <div id="main">
+        <div class="top">
+            <h1>多功能图像检测平台</h1>
+            <p>基于layui+flask实现</p>
+        </div>
+        <div class="center">
+            <div class="layui-tab layui-tab-card">
+              <ul class="layui-tab-title">
+                <li class="layui-this">图像检测</li>
+                <li>视频检测</li>
+                <li>摄像头实时检测</li>
+              </ul>
+              <div class="layui-tab-content">
+                <div class="layui-tab-item layui-show">
+                    <div class="layui-row layui-col-space30">
+                        <div class="layui-col-xs6">
+                            <div class="grid-demo grid-demo-bg1">
+                                <div style="width: 380px;margin:0 auto">
+                                  <div class="layui-upload-list">
+                                    <img class="layui-upload-img" id="ID-upload-demo-img" style="width: 100%; height: 380px;"/>
+                                    <div id="ID-upload-demo-text"></div>
+                                  </div>
+                                  <div class="layui-progress" lay-showPercent="yes" lay-filter="filter-demo">
+                                    <div class="layui-progress-bar" lay-percent=""></div>
+                                  </div>
+                                </div>
+                                <button type="button" class="layui-btn" id="ID-upload-demo-btn" style="margin-top: 5px">
+                                  <i class="layui-icon layui-icon-upload"></i> 上传图片
+                                </button>
+                            </div>
+                        </div>
+                        <div class="layui-col-xs6">
+                            <div class="grid-demo grid-demo-bg2">
+                                 <div style="width: 380px;margin:0 auto">
+                                  <div class="layui-upload-list">
+                                    <img class="layui-upload-img" id="ID-show-demo-img" style="width: 100%; height: 380px;">
+                                    <div style="margin-top: 5px">
+                                        <a id="search-result-a" style="cursor:pointer;color: #027bd5">检测结果展示</a>
+                                    </div>
+                                  </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bottom" style="text-align: center">
+                        <button class="layui-btn layui-bg-orange" id="start-predict-btn">
+                          <i class="layui-icon layui-icon-face-surprised" style="font-size: 20px; color: #1E9FFF;"></i>
+                          <span>开始检测</span>
+                        </button>
+                    </div>
+                </div>
+                <div class="layui-tab-item">
+                    <div class="layui-row layui-col-space30">
+                        <div class="layui-col-xs6">
+                            <div class="grid-demo grid-demo-bg1">
+                                <div style="width: 380px;margin:0 auto">
+                                   <div class="layui-upload-list">
+                                     <div class="original-video" style="width: 100%; height: 380px;border: 1px #c0c0c0 solid">
+                                         <video controls autoplay class="layui-upload-img" id="originalVideo" style="width: 100%; height: 380px;">
+                                         </video>
+                                     </div>
+                                     <div id="ID-upload-video-text"></div>
+                                   </div>
+                                   <div class="layui-progress" lay-showPercent="yes" lay-filter="filter-video">
+                                     <div class="layui-progress-bar" lay-percent=""></div>
+                                   </div>
+                                 </div>
+                                 <button type="button" id="ID-upload-video-btn" class="layui-btn demo-class-accept" lay-options="{accept: 'video'}" style="margin-top: 5px">
+                                     <i class="layui-icon layui-icon-upload"></i>
+                                     上传视频
+                                 </button>
+                             </div>
+                         </div>
+                         <div class="layui-col-xs6">
+                             <div class="grid-demo grid-demo-bg2">
+                                  <div style="width: 380px;margin:0 auto">
+                                   <div class="layui-upload-list">
+                                     <div class="processed-video" style="width: 100%; height: 380px;border: 1px #c0c0c0 solid">
+                                             <video id="processed-video" width="100%" height="380" controls>
+                                                 Your browser does not support the video tag.
+                                             </video>
+                                     </div>
+                                     <div style="margin-top: 5px">
+                                         <a id="search-result-a1" style="cursor:pointer;color: #027bd5">检测结果展示</a>
+                                     </div>
+                                   </div>
+                                 </div>
+                             </div>
+                         </div>
+                     </div>
+                     <div class="bottom" style="text-align: center">
+                         <button class="layui-btn layui-bg-orange" id="start-predict-btn1">
+                           <i class="layui-icon layui-icon-face-surprised" style="font-size: 20px; color: #1E9FFF;"></i>
+                           <span>开始检测</span>
+                         </button>
+                     </div>
+                 </div>
+                 <div class="layui-tab-item">
+                     <div class="layui-row layui-col-space30">
+                         <div class="layui-col-xs12">
+                             <div class="grid-demo grid-demo-bg2">
+                                  <div style="width: 720px;margin:0 auto">
+                                   <div class="layui-upload-list">
+                                      <div class="processed-video" style="width: 100%; height: 430px;border: 1px #c0c0c0 solid">
+                                              <img src="" class="layui-show-video" style="width: 100%; height: 430px;" id="processedCamera">
+                                      </div>
+                                      <div style="margin-top: 5px">
+                                          <a id="search-result-a2" style="cursor:pointer;color: #027bd5">检测结果展示</a>
+                                      </div>
+                                    </div>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                      <div class="bottom" style="text-align: center">
+                          <button class="layui-btn layui-bg-orange" id="start-predict-btn2">
+                            <i class="layui-icon layui-icon-face-surprised" style="font-size: 20px; color: #1E9FFF;"></i>
+                            <span>开始检测</span>
+                          </button>
+                          <button type="button" id="ID-close-camera-btn" class="layui-btn demo-class-accept">
+                              <i class="layui-icon layui-icon-close"></i>
+                              关闭摄像头
+                          </button>
+                      </div>
+                  </div>
+               </div>
+             </div>
+           </div>
+       </div>
+   </div>
+   <script src="{{ url_for('static', filename='utils/layui/layui.js') }}"></script>
+   <script src="{{ url_for('static', filename='js/index.js') }}"></script>
+   <script src="{{ url_for('static', filename='utils/js/axios.js') }}"></script>
+</body>
+</html>

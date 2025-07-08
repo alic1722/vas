@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block title %}志愿者视频服务{% endblock %}
+{% block content %}
+    <h1><b>欢迎，以下为需要帮助的房间号</b> {{ first_name }} {{ last_name }}</h1>
+    <hr>
+    <ul>  
+        {% for room in roomids %}  
+            <li>用户邮箱: {{ room.email }}  <span style="margin-left: 30px;">房间号: {{ room.roomid }}</span> </li>  
+        {% endfor %}  
+    </ul>  
+<!-- "创建或加入会议" 按钮  格式套用-->
+    <div class="create-meeting-button">
+        <div class="button-container">
+            <form action="{{ url_for('finish_meeting_service') }}" method="post">  
+                <label for="roomid"></label>  
+                <input type="text" autocomplete="off" placeholder="请输入需删除的房间号" name="roomid">  
+                <input class="btn btn-primary" type="submit" value="完成该用户的服务">  
+            </form> 
+
+        </div>
+
+{% endblock %}

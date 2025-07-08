@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block title %}视觉问答{% endblock %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flask + Gradio</title>
+    <style>
+        iframe {
+            border: 3px solid #4CAF50;  /* 设置边框为 4px 宽的绿色 */
+            border-radius: 10px;        /* 设置边框圆角效果 */
+        }
+    </style>
+</head>
+<body>
+    <h1>视觉问答</h1>
+    <iframe src="{{ gradio_url }}" width="100%" height="1000" frameborder="0" allow="microphone"></iframe>
+</body>
+</html>
+{% endblock %}

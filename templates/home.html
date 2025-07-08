@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block title %}首页{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="text-center mb-5">欢迎来到我们的平台</h1>
+    
+    <div class="row justify-content-center">
+        <div class="col-md-4 mb-4">
+            <div class="card h-100">
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title">视频会议</h5>
+                    <p class="card-text flex-grow-1">进行高质量的视频会议，与他人实时交流。</p>
+                    <a href="{{ url_for('meeting') }}" class="btn btn-primary mt-auto">进入会议</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="card h-100">
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title">物体检测</h5>
+                    <p class="card-text flex-grow-1">使用先进的AI技术进行物体检测。</p>
+                    <a href="{{ url_for('object_detection') }}" class="btn btn-primary mt-auto">开始检测</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="card h-100">
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title">视觉问答</h5>
+                    <p class="card-text flex-grow-1">基于图像的智能问答系统。</p>
+                    <a href="{{ url_for('visual_question_answering') }}" class="btn btn-primary mt-auto">开始问答</a>
+                </div>
+            </div>
+        </div>       
+    </div>
+</div>
+{% endblock %}

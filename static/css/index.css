@@ -1,0 +1,15 @@
+#main{
+    width: 70%;
+    margin:0 auto;
+    height: 100%;
+}
+.grid-demo{
+    height: 500px;
+    text-align: center;
+}
+.grid-demo-bg1{
+    /*background-color: palegreen;*/
+}
+.grid-demo-bg2{
+    /*background-color: chartreuse;*/
+}
